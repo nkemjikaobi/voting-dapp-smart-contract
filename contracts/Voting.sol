@@ -176,6 +176,11 @@ contract Voting {
         return _canVote;
     }
 
+    // Determine if voting is visible or hidden
+    function isVotingVisible() public view returns (bool) {
+        return _isVoteVisible;
+    }
+
     /// return all contestants
     function getContestants() public view returns (contestantInfo[] memory) {
         return _allContestants;
