@@ -5,7 +5,7 @@ contract Voting {
 
     // BoardMember => 0
     // Teacher => 1
-    // BoardMember => 2
+    // Student => 2
     enum userTypes
     {
       BoardMember,
@@ -148,19 +148,6 @@ contract Voting {
        
     }
 
-    // Compile results
-    // function compileResults(userTypes _userType) public isTeacherOrChairman(_userType) {
-    //     for (uint i = 0; i < _allContestants.length; i++) {
-    //         contestantInfo memory contestant = _allContestants[i];
-    //         if(i == 0){
-    //             highestVote = contestant.numberOfVotes;
-    //         }
-    //         if(contestant.numberOfVotes > highestVote){
-    //             highestVote = contestant.numberOfVotes;
-    //         }
-    //     }
-    // }
-
     // Create contestant
     function createContestant(string memory _name) public {
         uint id_ = _allContestants.length + 1;
@@ -200,7 +187,7 @@ contract Voting {
         emit VotingEnabled(true);
     }
 
-    // Function to disbale votes visibility
+    // Function to disable votes visibility
     function hideVotesVisibility(uint _userType) public isTeacherOrBoardMember(_userType){
         _isVoteVisible = false;
         emit VotesVisibility(false);
