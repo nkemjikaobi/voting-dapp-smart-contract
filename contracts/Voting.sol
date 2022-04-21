@@ -78,8 +78,9 @@ contract Voting {
     event userCreated(uint userId, address userAddress, uint userType, bool hasVoted);
     event userCreationFailed(string message);
     event contestantCreated(uint contestantId, string name, uint numberOfVotes, bool hasWon);
-    event VotesVisibilityToggled(bool status);
-    event VotingAbilityToggled(bool status);
+    event VotesVisibility(bool status);
+    event VotingDisabled(bool status);
+    event VotingEnabled(bool status);
     event VoteOccurred(string contestantName_, uint userId_);
     event userTypeUpdated(uint userId_, string userType_);
     event userTypeUpdateFailure(string message);
@@ -187,33 +188,28 @@ contract Voting {
         return allUsers;
     }
 
-    // Function to update can vote field
-    function updateCanVote(bool visibility) public isChairman {
-        _canVote = visibility;
-        emit VotingAbilityToggled(visibility);
+    // Function to disable voting on the platform
+    function disbaleVote() public isChairman {
+        _canVote = false;
+        emit VotingDisabled(false);
     }
 
-    function getCanVote() public view returns(bool){
-        return _canVote;
+    // Function to enable voting on the platform
+    function enableVote() public isChairman {
+        _canVote = true;
+        emit VotingEnabled(true);
     }
 
-    // Toggle the ability to vote... This can only be modified by the Chairman of the board of directors
-    // function toggleVoting(bool _visibility) public isChairman {
-    //     updateCanVote(_visibility);
-    //     emit VotingAbilityToggled(_visibility);
-    // }
-
-    // Function to update votes visibility
-    function updateVotesVisibility(bool visibility, uint _userType) public isTeacherOrBoardMember(_userType){
-        _isVoteVisible = visibility;
-        emit VotesVisibilityToggled(visibility);
+    // Function to disbale votes visibility
+    function hideVotesVisibility(uint _userType) public isTeacherOrBoardMember(_userType){
+        _isVoteVisible = false;
+        emit VotesVisibility(false);
     }
 
+    // Function to show votes visibility
+    function showVotesVisibility(uint _userType) public isTeacherOrBoardMember(_userType){
+        _isVoteVisible = true;
+        emit VotesVisibility(true);
+    }
 
-
-    // Toggle the visibility of votes
-    // function toggleVotesVisibility(bool _visibility, uint _userType) public isTeacherOrBoardMember(_userType) {
-    //     updateVotesVisibility(_visibility);
-    //     emit VotesVisibilityToggled(_visibility);
-    // }
 }
