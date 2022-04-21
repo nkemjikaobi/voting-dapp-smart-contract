@@ -155,6 +155,17 @@ contract Voting {
         emit contestantCreated(id_, _name, 0, false);
     }
 
+    // Check if the user exists
+    function isValidUser(address userAddress) public view returns (bool) {
+        bool result = false;
+        for (uint i = 0; i < allUsers.length; i++) {
+            if(allUsers[i].userAddress == userAddress){
+                result = true;
+            }
+        }
+        return result;
+    }
+
     // Determine if the current address is the chairman
     function checkIfChairman(address user) public view returns (bool) {
         return chairman == user;
