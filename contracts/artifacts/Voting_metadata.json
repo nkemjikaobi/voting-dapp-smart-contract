@@ -412,6 +412,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "isVotingVisible",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -478,11 +491,11 @@
 	},
 	"sources": {
 		"contracts/Voting.sol": {
-			"keccak256": "0x8db507bb843e341e224d2dfb4d4c493e06b906554ef92a69d2d9ce12f51510fd",
+			"keccak256": "0x17cf7c579cb6a17877d158cd4d93c91ea300a7a2fe4c9dee6dcab7f2edd797de",
 			"license": "Unlicense",
 			"urls": [
-				"bzz-raw://2dacb47c48d0e2b21b035995c96d1414d1c09e1b9a5d3ab7e0e559a09074213a",
-				"dweb:/ipfs/QmXUtxiHxzfH5reUdw9AoQXWTvA8fkvgzK73HUXUCx3zvT"
+				"bzz-raw://c3118cda613f3a0225be3e673669d91fe0fa48710ea319457ed86eec865f7aa6",
+				"dweb:/ipfs/QmV5A2DCkaPrQDnLjLtnKFhwQLDsPytAoUaeQmXHmZuKTy"
 			]
 		}
 	},

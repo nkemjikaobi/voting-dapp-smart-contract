@@ -46,11 +46,14 @@ contract Voting {
 
     bool public _isVoteVisible;
 
+    bool public _isVotingEnded;
+
     uint public highestVote;
 
     constructor() {
         chairman = msg.sender;
         _canVote = true;
+        _isVotingEnded = false;
         createUser(msg.sender, 0);
     }
 
@@ -84,6 +87,7 @@ contract Voting {
     event VoteOccurred(string contestantName_, uint userId_);
     event userTypeUpdated(uint userId_, string userType_);
     event userTypeUpdateFailure(string message);
+    event VotingEnded();
 
     mapping(address => bool) boardMember;
     mapping(address => bool) teacher;
@@ -131,6 +135,7 @@ contract Voting {
 
     // Change a user type
     function changeUserType(uint userId_, uint _userType) public isChairman {
+        require(userId_ != 1, "You cannot update yourself");
         require(_userType == 0 || _userType == 1 || _userType == 2, "User type does not exist");
 
         if(_userType == 0){
@@ -155,6 +160,12 @@ contract Voting {
         emit contestantCreated(id_, _name, 0, false);
     }
 
+    //Coolate results
+    function collateResults(uint _userType) public isTeacherOrBoardMember(_userType){
+        _isVotingEnded = true;
+        emit VotingEnded();
+    }
+
     // Check if the user exists
     function isValidUser(address userAddress) public view returns (bool) {
         bool result = false;
@@ -176,6 +187,11 @@ contract Voting {
         return _canVote;
     }
 
+    // Determine if voting has ended
+    function isVotingEnded() public view returns (bool) {
+        return _isVotingEnded;
+    }
+
     // Determine if voting is visible or hidden
     function isVotingVisible() public view returns (bool) {
         return _isVoteVisible;
@@ -189,6 +205,11 @@ contract Voting {
     /// return all users
     function getUsers() public view returns (userInfo[] memory) {
         return allUsers;
+    }
+
+    //return all votes
+    function fetchVotes() public view returns (voteInfo[] memory) {
+        return _allVotesInfo;
     }
 
     // Function to disable voting on the platform
