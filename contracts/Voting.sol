@@ -60,32 +60,37 @@ contract Voting {
         createUser(msg.sender, 0);
     }
 
+    // modifier to ensure it is the chairman
     modifier isChairman {
         require(msg.sender == chairman, "Only the chairman is allowed to modify");
         _;
     }
 
+    // modifier to check if contract is enabled or disabled
     modifier isContractEnabled {
         require (isContractDisabled == false, "Contract has been disabled");
         _;
     }
 
+    // modifier to check if user is a teacher or board memmber
     modifier isTeacherOrBoardMember(uint _userType) {
       require(_userType == 0 || _userType == 1, "You are not authorized");
        _;
     }
 
+    // modifier to check if user is teacher or chairman
     modifier isTeacherOrChairman(uint _userType) {
       require(_userType == 1 || msg.sender == chairman, "You are not authorized");
        _;
     }
 
+    // modifier to check if voting is enabled
     modifier votingEnabled() {
         require (_canVote == true);
         _;
     }
 
-    //event VoteOccured(uint id, string name);
+    //Events
     event userCreated(uint userId, address userAddress, uint userType, bool hasVoted);
     event userCreationFailed(string message);
     event contestantCreated(uint contestantId, string name, uint numberOfVotes, bool hasWon);
@@ -99,11 +104,13 @@ contract Voting {
     event ContractEnabled(bool status);
     event ContractDisabled(bool status);
 
+    //Mappings
     mapping(address => bool) boardMember;
     mapping(address => bool) teacher;
     mapping(address => bool) student;
 
 
+    //Vote function
     function vote(uint contestantId_, uint userId_) public votingEnabled isContractEnabled{
 
         //Check that voting has not ended
