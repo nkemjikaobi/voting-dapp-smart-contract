@@ -1,5 +1,6 @@
 const { task } = require('hardhat/config');
 require('dotenv').config();
+require('solidity-coverage');
 
 const { INFURA_API_URL, PRIVATE_KEY } = process.env;
 
@@ -29,4 +30,5 @@ module.exports = {
 			accounts: [`0x${PRIVATE_KEY}`],
 		},
 	},
+	plugins: ['solidity-coverage'],
 };
