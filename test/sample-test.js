@@ -1,131 +1,184 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { ethers } = require('hardhat');
+const { use, expect } = require('chai');
+const { solidity } = require('ethereum-waffle');
+const { utils } = require('ethers');
 
-// describe("Greeter", function () {
-//   it("Should return the new greeting once it's changed", async function () {
-//     const Greeter = await ethers.getContractFactory("Greeter");
-//     const greeter = await Greeter.deploy("Hello, world!");
-//     await greeter.deployed();
+use(solidity);
 
-//     expect(await greeter.greet()).to.equal("Hello, world!");
+describe('Voting', function () {
+	it('it should create and fetch contestants', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-//     const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+		await voting.deployed();
 
-//     // wait until the transaction is mined
-//     await setGreetingTx.wait();
+		await voting.createContestant('Nkemjika Obi');
+		await voting.createContestant('Ebube Okoli');
 
-//     expect(await greeter.greet()).to.equal("Hola, mundo!");
-//   });
-// });
+		const contestants = await voting.getContestants();
 
-// const { ethers } = require('hardhat');
-// const { use, expect } = require('chai');
-// const { solidity } = require('ethereum-waffle');
-// const { utils } = require('ethers');
+		expect(contestants.length).to.equal(2);
+		let [k, m] = contestants.map(contestant => contestant.name);
 
-// use(solidity);
+		expect(k).to.equal('Nkemjika Obi');
+		expect(m).to.equal('Ebube Okoli');
+	});
+	it('it should fetch users', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// describe('FileSpace', function () {
-// 	it('Should set file ID and upload metadata', async () => {
-// 		const FileSpace = await hre.ethers.getContractFactory('FileSpace');
-// 		const fileSpace = await FileSpace.deploy();
+		await voting.deployed();
 
-// 		await fileSpace.deployed();
+		const users = await voting.getUsers();
 
-// 		let files = await fileSpace.retrieveFiles();
+		expect(users.length).to.equal(1);
+	});
+	it('it should fetch votes', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		expect(files.length).to.equal(0);
+		await voting.deployed();
 
-// 		await fileSpace.uploadFile('QmXy', 'The File', '2021-10-18', false);
+		const votes = await voting.fetchVotes();
 
-// 		files = await fileSpace.retrieveFiles();
+		expect(votes.length).to.equal(0);
+	});
+	it('it should create users', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		expect(files.length).to.equal(1);
-// 		expect(files[0].id).to.equal(1);
-// 		expect(files[0].isPrivate).to.equal(false);
+		await voting.deployed();
 
-// 		await fileSpace.uploadFile('QmJy', 'The New File', '2021-10-18', true);
+		await voting.createUser('0x2223241f7d197cca53c1B13df8CfA38264017F04', 1);
 
-// 		files = await fileSpace.retrieveFiles();
+		const users = await voting.getUsers();
 
-// 		expect(files.length).to.equal(2);
-// 		expect(files[1].id).to.equal(2);
-// 		expect(files[1].isPrivate).to.equal(true);
-// 	});
+		expect(users.length).to.equal(2);
+	});
+	it('it should change user type', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 	it('Should retrieve files', async () => {
-// 		const FileSpace = await hre.ethers.getContractFactory('FileSpace');
-// 		const fileSpace = await FileSpace.deploy();
+		await voting.deployed();
 
-// 		await fileSpace.deployed();
+		await voting.createUser('0x2223241f7d197cca53c1B13df8CfA38264017F04', 2);
 
-// 		await fileSpace.uploadFile('QmXy', 'The File', '2021-10-18', false);
-// 		await fileSpace.uploadFile('QmJy', 'The New File', '2021-10-18', true);
+		const user = await voting.changeUserType(2, 2);
 
-// 		const files = await fileSpace.retrieveFiles();
+		const users = await voting.getUsers();
 
-// 		expect(files.length).to.equal(2);
-// 		let [k, m] = files.map(file => file.fileName);
+		let [k, m] = users.map(user => user.userType);
 
-// 		expect(k).to.equal('The File');
-// 		expect(m).to.equal('The New File');
-// 	});
+		expect(m).to.equal('Student');
+	});
+	it('it should enable vote', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 	it('Should share files', async () => {
-// 		const FileSpace = await hre.ethers.getContractFactory('FileSpace');
-// 		const fileSpace = await FileSpace.deploy();
+		await voting.deployed();
 
-// 		await fileSpace.deployed();
+		await voting.enableVote();
+		const isEnabled = await voting.isVotingEnabled();
+		expect(isEnabled).to.equal(true);
+	});
+	it('it should disable vote', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		await fileSpace.uploadFile('QmJy', 'The New File', '2021-10-18', true);
+		await voting.deployed();
 
-// 		await fileSpace.shareFile(1, '0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f');
+		await voting.disbaleVote();
+		const isDisabled = await voting.isVotingEnabled();
+		expect(isDisabled).to.equal(false);
+	});
+	it('it should show votes', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		const files = await fileSpace.retrieveFiles();
+		await voting.deployed();
 
-// 		let uploader = files[0].uploadedBy;
+		await voting.showVotesVisibility(1);
+		const isVisible = await voting.isVotingVisible();
+		expect(isVisible).to.equal(true);
+	});
+	it('it should hide votes', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		let check = false;
+		await voting.deployed();
 
-// 		for (let add of files[0].sharedWith) {
-// 			if (add.toLowerCase() === '0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f')
-// 				check = true;
-// 			return;
-// 		}
+		await voting.hideVotesVisibility(1);
+		const isVisible = await voting.isVotingVisible();
+		expect(isVisible).to.equal(false);
+	});
+	it('it should enable contract', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		expect(uploader.toLowerCase()).to.equal(
-// 			'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
-// 		);
-// 		expect(check).to.equal(true);
-// 	});
+		await voting.deployed();
 
-// 	it('Should make file private', async () => {
-// 		const FileSpace = await hre.ethers.getContractFactory('FileSpace');
-// 		const fileSpace = await FileSpace.deploy();
+		await voting.enableContract();
+		const isDisabled = await voting.contractDisabled();
+		expect(isDisabled).to.equal(false);
+	});
+	it('it should disable contract', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		await fileSpace.deployed();
+		await voting.deployed();
 
-// 		await fileSpace.uploadFile('QmXy', 'The File', '2021-10-18', false);
+		await voting.disableContract();
+		const isDisabled = await voting.contractDisabled();
+		expect(isDisabled).to.equal(true);
+	});
+	it('it should vote', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		await fileSpace.privatizeFile(1);
+		await voting.deployed();
 
-// 		const file = await fileSpace.retrieveFiles();
+		await voting.createContestant('Nkemjika Obi');
 
-// 		expect(file[0].isPrivate).to.equal(true);
-// 	});
+		await voting.vote(1, 1);
 
-// 	it('Should make file public', async () => {
-// 		const FileSpace = await hre.ethers.getContractFactory('FileSpace');
-// 		const fileSpace = await FileSpace.deploy();
+		const votes = await voting.fetchVotes();
+		expect(votes.length).to.equal(1);
+	});
+	it('is a valid user', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		await fileSpace.deployed();
+		await voting.deployed();
 
-// 		await fileSpace.uploadFile('QmXy', 'The File', '2021-10-18', true);
+		await voting.createUser('0x2223241f7d197cca53c1B13df8CfA38264017F04', 1);
 
-// 		await fileSpace.publicizeFile(1);
+		const res = await voting.isValidUser(
+			'0x2223241f7d197cca53c1B13df8CfA38264017F04'
+		);
+		expect(res).to.equal(true);
+	});
+	it('check if chairman', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
 
-// 		const file = await fileSpace.retrieveFiles();
+		await voting.deployed();
 
-// 		expect(file[0].isPrivate).to.equal(false);
-// 	});
-// });
+		const users = await voting.getUsers();
+		let [k, m] = users.map(user => user.userAddress);
+
+		const res = await voting.checkIfChairman(k);
+
+		expect(res).to.equal(true);
+	});
+	it('collate results', async () => {
+		const Voting = await hre.ethers.getContractFactory('Voting');
+		const voting = await Voting.deploy();
+
+		await voting.deployed();
+
+		await voting.collateResults(0);
+		const res = await voting.isVotingEnded();
+
+		expect(res).to.equal(true);
+	});
+});
