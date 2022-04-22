@@ -96,6 +96,9 @@ contract Voting {
 
     function vote(uint contestantId_, uint userId_) public votingEnabled {
 
+        //Check that voting has not ended
+        require(_isVotingEnded == false, "Voting has ended");
+
         //Check that the user has not voted before
         require(allUsers[userId_ - 1].hasVoted == false, "You cannot vote twice");
 
