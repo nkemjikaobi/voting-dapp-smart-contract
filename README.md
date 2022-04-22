@@ -1,5 +1,7 @@
 # _Voting DApp_
 
+![HomePage](https://user-images.githubusercontent.com/19577206/164715300-ebcb6f86-8f46-4d28-8929-a15fc513bc9f.JPG)
+
 ## Table of Content
 
 1. [Introduction](#introduction)
@@ -8,13 +10,11 @@
 
 3. [Live Demo](#live-demo)
 
-4. [Technologies](#technologies)
+4. [Smart Contract](#smart-contract)
 
-5. [Repo Setup](#repo-setup)
+5. [Contributors](#contributors)
 
-6. [Contributors](#contributors)
-
-7. [Contributing to the project](#contributing-to-the-project)
+6. [Contributing to the project](#contributing-to-the-project)
 #
 
 > ## Introduction 
@@ -39,32 +39,11 @@ _To Create a smart contract that enables the following:_
 > ## Live Demo
 
 https://voting-dapp-frontend.vercel.app/
-![HomePage](https://user-images.githubusercontent.com/19577206/164715300-ebcb6f86-8f46-4d28-8929-a15fc513bc9f.JPG)
 
 #
-> ## Technologies
-| <b><u>Stack</u></b> | <b><u>Usage</u></b> |
-| :------------------ | :------------------ |
-|  **`React JS`**     |      Frontend       |
-|   **`Next js`**     |      Frontend       |
-|   **`Typescript`**  |      Frontend       |
-|  **`Solidity`**     |   Smart contract    |
+> ## Smart Contract
 
-
-#
-> ## Repo Setup
-
-<p align="justify">
-To setup the repo, first fork the Pace-University-Zuri.git repo, then clone the forked repository to create a copy on the local machine.
-</p>
-
-    $ git clone https://github.com/nkemjikaobi/voting-dapp-frontend.git
-
-<p align="justify">
-Change directory to the cloned repo and set the original Pace-University-Zuri repository as the "upstream" and your forked repository as the "origin" using git-bash.
-</p>
-
-    $ git remote add upstream https://github.com/nkemjikaobi/voting-dapp-frontend.git
+**The smart contract address** - 0x55B6C8417e469eE97800dB61397E5C61b2E599aC and can be verified [Here:](https://rinkeby.etherscan.io/address/0x55B6C8417e469eE97800dB61397E5C61b2E599aC)
 
 #
 
@@ -88,4 +67,4 @@ Before adding a pull request, please note:
 
 All **`suggestions`** are welcome!
 #
-> ###### README Created by `Nkemjika obi` for Team-f
+> ###### README Created by `Oisamoje Victor` for Team-f
