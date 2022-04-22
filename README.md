@@ -1,4 +1,4 @@
 # Voting Dapp Smart contract
 
 ### Contract
-https://rinkeby.etherscan.io/address/0xfC1DF47F3556C6E11D5d38b1824254257Cb0b24d
+https://rinkeby.etherscan.io/address/0x55B6C8417e469eE97800dB61397E5C61b2E599aC

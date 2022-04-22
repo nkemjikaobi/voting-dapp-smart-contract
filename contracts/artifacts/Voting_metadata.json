@@ -15,6 +15,32 @@
 				"inputs": [
 					{
 						"indexed": false,
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"name": "ContractDisabled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"name": "ContractEnabled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
 						"internalType": "string",
 						"name": "contestantName_",
 						"type": "string"
@@ -66,6 +92,12 @@
 					}
 				],
 				"name": "VotingEnabled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [],
+				"name": "VotingEnded",
 				"type": "event"
 			},
 			{
@@ -202,6 +234,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "_isVotingEnded",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -241,6 +286,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "_userType",
+						"type": "uint256"
+					}
+				],
+				"name": "collateResults",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "string",
 						"name": "_name",
 						"type": "string"
@@ -271,7 +329,21 @@
 			},
 			{
 				"inputs": [],
+				"name": "disableContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "disbaleVote",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "enableContract",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -281,6 +353,31 @@
 				"name": "enableVote",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "fetchVotes",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "contestantId",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Voting.voteInfo[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -380,6 +477,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "isContractDisabled",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -401,6 +511,19 @@
 			{
 				"inputs": [],
 				"name": "isVotingEnabled",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "isVotingEnded",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -491,11 +614,11 @@
 	},
 	"sources": {
 		"contracts/Voting.sol": {
-			"keccak256": "0x17cf7c579cb6a17877d158cd4d93c91ea300a7a2fe4c9dee6dcab7f2edd797de",
+			"keccak256": "0x1447d408a800c787d88bccdd78368f5fffcd62a8e7d8bdcfef371fa0e8927a57",
 			"license": "Unlicense",
 			"urls": [
-				"bzz-raw://c3118cda613f3a0225be3e673669d91fe0fa48710ea319457ed86eec865f7aa6",
-				"dweb:/ipfs/QmV5A2DCkaPrQDnLjLtnKFhwQLDsPytAoUaeQmXHmZuKTy"
+				"bzz-raw://d09adb02c4f053edc482ac114ff41709d9d9242094a82a563f5425435741689b",
+				"dweb:/ipfs/Qmbh9nTFBpwB6BDzuNMRNMU6NLD6KkHt1Ybh7noKVQnZj6"
 			]
 		}
 	},
